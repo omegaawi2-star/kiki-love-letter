@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#381b2a">
+<title>A Little Reminder of How Special You Are</title>
+<style>
+:root{--rose:#f7bfd2;--cream:#fff5f1;--wine:#401d30;--glass:rgba(45,18,34,.70)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Georgia,"Times New Roman",serif;color:var(--cream)}
+body{background:#24121d;overflow-x:hidden}
+.scene{position:fixed;inset:0;background:
+ linear-gradient(180deg,rgba(25,8,18,.15),rgba(26,8,19,.60)),
+ url("sunset-memory.png") center 48%/cover no-repeat;z-index:-3}
+.scene:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 25%,rgba(22,6,17,.35) 100%)}
+#hearts{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+.heart{position:absolute;bottom:-60px;color:#ffb4d0;text-shadow:0 0 12px #ff6fa8,0 0 28px #ff4d91;animation:floatUp linear forwards;opacity:0}
+@keyframes floatUp{0%{transform:translateY(0) rotate(-12deg) scale(.7);opacity:0}12%{opacity:.8}85%{opacity:.7}100%{transform:translateY(-115vh) rotate(18deg) scale(1.25);opacity:0}}
+.top{position:relative;display:flex;justify-content:center;gap:12px;padding:18px 12px 0}
+.user{font:600 13px/1.2 Arial,sans-serif;color:#fff;text-shadow:0 2px 8px #28101d;background:rgba(28,12,22,.48);border:1px solid rgba(255,255,255,.28);padding:8px 13px;border-radius:999px;backdrop-filter:blur(8px)}
+main{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:28px 16px 50px}
+.panel{width:min(590px,100%);text-align:center;background:linear-gradient(145deg,rgba(53,20,39,.83),rgba(37,17,30,.76));border:1px solid rgba(255,218,231,.42);border-radius:26px;padding:clamp(22px,5vw,42px);box-shadow:0 20px 70px rgba(13,4,11,.42);backdrop-filter:blur(12px)}
+.kicker{font:600 11px Arial,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:#f7c5d7}
+h1{font-size:clamp(30px,6vw,48px);line-height:1.08;font-weight:normal;font-style:italic;color:#ffe3ed;margin:14px 0}
+.sub{font-size:18px;line-height:1.5;color:#f7dce6;margin:0 auto 24px;max-width:430px}
+.envelope-wrap{display:flex;justify-content:center;margin:28px auto 16px}
+.envelope{width:190px;height:126px;position:relative;border:0;background:transparent;cursor:pointer;filter:drop-shadow(0 12px 16px rgba(0,0,0,.28));transition:transform .25s}
+.envelope:hover{transform:translateY(-4px) scale(1.03)}
+.env-body{position:absolute;inset:0;background:linear-gradient(145deg,#f7c2d3,#d9789d);border-radius:8px;overflow:hidden}
+.env-body:before,.env-body:after{content:"";position:absolute;bottom:0;width:0;height:0;border-style:solid}
+.env-body:before{left:0;border-width:63px 95px 0 0;border-color:#e99ab5 transparent transparent transparent}
+.env-body:after{right:0;border-width:63px 0 0 95px;border-color:#d982a2 transparent transparent transparent}
+.flap{position:absolute;top:0;left:0;width:0;height:0;border-left:95px solid transparent;border-right:95px solid transparent;border-top:75px solid #fbe0e9;transform-origin:top;transition:transform .7s;z-index:3}
+.seal{position:absolute;z-index:4;left:50%;top:48%;transform:translate(-50%,-50%);width:35px;height:35px;border-radius:50%;background:#8f294f;color:#ffe8ef;display:grid;place-items:center;font-size:19px;box-shadow:0 2px 8px #71334b}
+.envelope.open .flap{transform:rotateX(180deg);z-index:0}
+.envelope.open{transform:translateY(5px)}
+.hint{font:13px Arial,sans-serif;color:#f3c8d8;letter-spacing:.04em}
+button.action{border:1px solid rgba(255,220,232,.55);background:#f5c4d5;color:#4b1e34;border-radius:999px;padding:12px 20px;font:600 14px Arial,sans-serif;cursor:pointer;margin:12px 5px}
+button.action:hover{background:#ffe3ec}
+.letter{display:none;text-align:left;margin:28px auto 0;padding:25px clamp(18px,4vw,32px);background:linear-gradient(150deg,#fff8f4,#fce8ed);color:#51263b;border-radius:16px;box-shadow:0 12px 35px rgba(0,0,0,.2);line-height:1.8;font-size:17px;animation:reveal .9s ease both}
+.letter.show{display:block}
+.letter h2{text-align:center;font-weight:normal;font-style:italic;font-size:25px;color:#8c3b5d;margin:0 0 20px}
+.letter p{margin:0 0 15px}
+.letter .sign{text-align:right;font-style:italic;color:#8c3b5d;margin-top:22px}
+@keyframes reveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.controls{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:18px}
+.small{font:12px Arial,sans-serif;color:#f4d4df;opacity:.9;margin-top:20px}
+.burst{position:fixed;left:50%;top:50%;font-size:25px;pointer-events:none;z-index:5;animation:burst 1.8s ease-out forwards}
+@keyframes burst{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}15%{opacity:1}100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.4) rotate(var(--r));opacity:0}}
+@media(max-width:520px){.scene{background-position:54% center}.panel{padding:24px 18px}.letter{font-size:16px}.user{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="scene" aria-hidden="true"></div>
+<div id="hearts" aria-hidden="true"></div>
+<header class="top" aria-label="Memory usernames">
+  <span class="user">Maxs7777</span><span class="user">Smoothie</span>
+</header>
+<main>
+<section class="panel">
+  <div class="kicker">A little something from my heart</div>
+  <h1>A Little Reminder of How Special You Are</h1>
+  <p class="sub">A Note Just for You, KiKi <span aria-hidden="true">♥</span></p>
+  <div class="envelope-wrap">
+    <button class="envelope" id="envelope" aria-label="Open your letter">
+      <span class="env-body"></span><span class="flap"></span><span class="seal">♥</span>
+    </button>
+  </div>
+  <div class="hint" id="hint">Tap the envelope to open your letter</div>
+  <div class="letter" id="letter">
+    <h2>My Dearest KiKi,</h2>
+    <p>I wish I could give you the whole world, because I truly believe you deserve every beautiful thing it has to offer. You deserve happiness that never makes you question your worth, love that never makes you feel alone, and peace that stays even on your hardest days.</p>
+    <p>I hope you never forget how special you are. I hope you always see the beauty in yourself, even on the days when you struggle to find it.</p>
+    <p>Among all the people I could have met, I'm grateful that I met you. Your presence makes ordinary hours feel worthwhile, and somehow, even the simplest moments become memories I want to keep forever.</p>
+    <p>If there's one thing I want you to know, it's that you never have to be extraordinary to deserve extraordinary love. You deserve the whole world simply by being you.</p>
+    <p class="sign">A little piece of my heart. ♥</p>
+  </div>
+  <div class="controls">
+    <button class="action" id="music">♫ Play soft music</button>
+    <button class="action" id="heartsBtn">♡ Send some hearts</button>
+  </div>
+  <p class="small">Made with love, for this moment. ♥</p>
+</section>
+</main>
+<script>
+const heartLayer=document.getElementById('hearts');
+function floatHeart(){
+  const h=document.createElement('span');h.className='heart';h.textContent=['♥','♡','❤'][Math.floor(Math.random()*3)];
+  h.style.left=(Math.random()*100)+'vw';h.style.fontSize=(14+Math.random()*22)+'px';h.style.animationDuration=(7+Math.random()*8)+'s';
+  heartLayer.appendChild(h);setTimeout(()=>h.remove(),16000);
+}
+for(let i=0;i<16;i++)setTimeout(floatHeart,i*350);
+setInterval(floatHeart,650);
+function burstHearts(){
+  for(let i=0;i<24;i++){const b=document.createElement('span');b.className='burst';b.textContent=['♥','♡','💗'][i%3];
+    const angle=(Math.PI*2*i)/24,dist=120+Math.random()*170;
+    b.style.setProperty('--x',(Math.cos(angle)*dist)+'px');b.style.setProperty('--y',(Math.sin(angle)*dist)+'px');b.style.setProperty('--r',(Math.random()*70-35)+'deg');
+    document.body.appendChild(b);setTimeout(()=>b.remove(),1900);}
+}
+const envelope=document.getElementById('envelope'),letter=document.getElementById('letter');
+envelope.addEventListener('click',()=>{if(!envelope.classList.contains('open')){envelope.classList.add('open');setTimeout(()=>{letter.classList.add('show');document.getElementById('hint').textContent='A little reminder, just for you.';burstHearts();},550);}});
+document.getElementById('heartsBtn').addEventListener('click',burstHearts);
+// Original gentle synthesized chime loop; starts only after the visitor presses Play.
+let audioCtx=null,master=null,playing=false,loopTimer=null;
+function note(freq,start,duration){const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.value=freq;gain.gain.setValueAtTime(0,audioCtx.currentTime+start);gain.gain.linearRampToValueAtTime(.035,audioCtx.currentTime+start+.08);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+start+duration);osc.connect(gain);gain.connect(master);osc.start(audioCtx.currentTime+start);osc.stop(audioCtx.currentTime+start+duration+.05);}
+function playPhrase(){if(!playing)return;const notes=[523.25,659.25,783.99,659.25,587.33,698.46,880,698.46];notes.forEach((n,i)=>note(n,i*.48,1.15));}
+function startMusic(){audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();audioCtx.resume();master=master||audioCtx.createGain();master.gain.value=.7;master.connect(audioCtx.destination);playing=true;playPhrase();loopTimer=setInterval(playPhrase,3900);document.getElementById('music').textContent='♫ Pause music';}
+function stopMusic(){playing=false;clearInterval(loopTimer);if(master)master.gain.setTargetAtTime(0,audioCtx.currentTime,.08);document.getElementById('music').textContent='♫ Play soft music';}
+document.getElementById('music').addEventListener('click',()=>{if(!playing){startMusic();}else{stopMusic();}});
+</script>
+</body>
+</html>
